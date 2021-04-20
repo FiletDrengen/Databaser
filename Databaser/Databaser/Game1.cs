@@ -29,7 +29,7 @@ namespace Databaser
             command.ExecuteNonQuery();
             command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Bait (bait VARCHAR(18), Alive BOOLEAN)", connection);
             command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO Bait (bait, Alive) VALUES ('Orm',true);", connection);
+            command = new SQLiteCommand("INSERT INTO Bait (bait, Alive) VALUES ('Orm', true);", connection);
             command.ExecuteNonQuery();
             command = new SQLiteCommand("INSERT INTO Bait (bait, Alive) VALUES ('PowerBait', false);", connection);
             command.ExecuteNonQuery();
@@ -41,6 +41,10 @@ namespace Databaser
             command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('Admin','Admin');", connection);
             command.ExecuteNonQuery();
             command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('Hoffe', '123');", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('Kreie','111');", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('Pepega', 'Password');", connection);
             command.ExecuteNonQuery();
 
             command = new SQLiteCommand("DROP TABLE Vehicle", connection);
