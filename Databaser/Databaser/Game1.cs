@@ -94,15 +94,15 @@ namespace Databaser
             command = new SQLiteCommand("INSERT INTO FishList (FISH,Value) VALUES ('Green','10');", connection);
             command.ExecuteNonQuery();
 
-            command = new SQLiteCommand("SELECT * from Bait", connection);
-            var dataset = command.ExecuteReader();
-            while (dataset.Read())
-            {
-                var test = dataset.GetBoolean(1);
-                //var id = dataset.GetInt32(0);
-                var name = dataset.GetString(0);
-                Console.WriteLine($"{name}  {test} ");
-            }
+            //command = new SQLiteCommand("SELECT * from Bait", connection);
+            //var dataset = command.ExecuteReader();
+            //while (dataset.Read())
+            //{
+            //    var test = dataset.GetBoolean(1);
+            //    //var id = dataset.GetInt32(0);
+            //    var name = dataset.GetString(0);
+            //    Console.WriteLine($"{name}  {test} ");
+            //}
             //connection.Close();
 
             base.Initialize();
