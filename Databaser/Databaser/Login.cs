@@ -13,7 +13,16 @@ namespace Databaser
     {
         private SpriteFont userfont;
         public static string user;
+        public Texture2D loginTexture;
         public static string password;
+        public static ContentManager content;
+        public Rectangle Rectangle;
+
+        public Login(Rectangle newRectangle)
+        {
+            loginTexture = content.Load<Texture2D>("Tile1");
+            this.Rectangle = newRectangle;
+        }
 
         public static void DatabaseSetup()
         {
@@ -109,7 +118,7 @@ namespace Databaser
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            spriteBatch.Draw(loginTexture, Rectangle, Color.Gray);
         }
     }
 }
