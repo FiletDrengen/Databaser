@@ -25,7 +25,6 @@ namespace Databaser
 
         public static void DatabaseSetup()
         {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
             connection.Open();
 
             var command = new SQLiteCommand("DROP TABLE Bait", connection);
@@ -47,7 +46,7 @@ namespace Databaser
             command.ExecuteNonQuery();
             command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('KREIE','FCM');", connection);
             command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('PEPEGA', 'PASSWORD');", connection);
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('PEPEGA', 'REEEE');", connection);
             command.ExecuteNonQuery();
 
             command = new SQLiteCommand("DROP TABLE Vehicle", connection);
@@ -65,7 +64,7 @@ namespace Databaser
                 "Username VARCHAR(15)," +
                 "FOREIGN KEY (Username) REFERENCES User(Username))", connection);
             command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('100','Sø','Hoffe')", connection);
+            command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('100','So','Hoffe')", connection);
             command.ExecuteNonQuery();
 
             command = new SQLiteCommand("DROP TABLE Realm", connection);
@@ -79,7 +78,7 @@ namespace Databaser
             command.ExecuteNonQuery();
             command = new SQLiteCommand("INSERT INTO Realm (Realms) VALUES ('Flod');", connection);
             command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO Realm (Realms) VALUES ('Sø');", connection);
+            command = new SQLiteCommand("INSERT INTO Realm (Realms) VALUES ('So');", connection);
             command.ExecuteNonQuery();
 
             command = new SQLiteCommand("DROP TABLE FishList", connection);
@@ -122,35 +121,31 @@ namespace Databaser
             return false;
         }
 
-        //public static string Loadhighscore()
-        //{
-        //    SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
-        //    connection.Open();
-        //    string querry = "Select * from Highscore";
-        //    var command = new SQLiteCommand(querry, connection);
-        //    var dataset = command.ExecuteReader();
+        public static HighScore[] Loadhighscore()
+        {
+            connection.Open();
+            var highscores = new List<HighScore>();
+            var command = new SQLiteCommand("Select * from Highscore", connection);
+            SQLiteDataReader result = command.ExecuteReader();
+            while (result.Read())
+            {
+                var row = new HighScore();
+                row.highscore = result.GetInt32(0);
+                row.realm = result.GetString(1);
+                row.user = result.GetString(2);
+                highscores.Add(row);
+            }
 
-        //    if (dataset.Read())
-        //    {
-        //        return true;
-        //    }
-        //    connection.Close();
-        //    return false;
-        //}
+            connection.Close();
+            return highscores.ToArray();
+        }
 
-        //public static bool InsertIntoHighscore(string user, string realm, string score)
-        //{
-        //    SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
-        //    connection.Open();
-        //    var command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('" + score + "','" + realm + "','" + user + "')", connection);
-        //    var dataset = command.ExecuteReader();
-
-        //    if (dataset.Read())
-        //    {
-        //        return true;
-        //    }
-        //    connection.Close();
-        //    return false;
-        //}
+        public static void InsertIntoHighscore(string user, string realm, string score)
+        {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
+            connection.Open();
+            var command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('" + score + "','" + realm + "','" + user + "')", connection);
+            command.ExecuteReader();
+        }
     }
 }

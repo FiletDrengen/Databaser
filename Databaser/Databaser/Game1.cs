@@ -28,6 +28,7 @@ namespace Databaser
         public KeyboardState previousKeyState;
         public Realm realm;
         private Keys keyValue;
+        private HighScore[] highscorearray;
 
         public enum textfied
         {
@@ -65,6 +66,7 @@ namespace Databaser
             userlog = new Login(new Rectangle(650, 50, 100, 30));
             passlog = new Login(new Rectangle(650, 100, 100, 30));
             userlogin = new Login(new Rectangle(650, 150, 100, 30));
+            highscorearray = Login.Loadhighscore();
         }
 
         public void Fishing()
@@ -142,6 +144,7 @@ namespace Databaser
             }
 
             previousKeyState = currentKeyState;
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -169,6 +172,19 @@ namespace Databaser
             }
             map.Draw(_spriteBatch);
             _spriteBatch.DrawString(userfont, "Score:  " + score, new Vector2(1, 1), Color.Black);
+
+            foreach (HighScore highscore in highscorearray)
+            {
+                var realm = highscore.realm.ToString();
+                var user = highscore.user.ToString();
+                var score = highscore.highscore.ToString();
+
+                var loadout = "User:        Realm:         Highscore";
+                _spriteBatch.DrawString(userfont, loadout, new Vector2(0, 360), Color.Black);
+                _spriteBatch.DrawString(userfont, user, new Vector2(0, 380), Color.Black);
+                _spriteBatch.DrawString(userfont, realm, new Vector2(70, 380), Color.Black);
+                _spriteBatch.DrawString(userfont, score, new Vector2(152, 380), Color.Black);
+            }
             _spriteBatch.End();
             base.Draw(gameTime);
         }
