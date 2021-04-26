@@ -12,11 +12,10 @@ namespace Databaser
     public class Login : GameObject
     {
         private SpriteFont userfont;
-        public static string user;
         public Texture2D loginTexture;
-        public static string password;
         public static ContentManager content;
         public Rectangle Rectangle;
+        public static SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
 
         public Login(Rectangle newRectangle)
         {
@@ -26,7 +25,7 @@ namespace Databaser
 
         public static void DatabaseSetup()
         {
-            var connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
+            SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
             connection.Open();
 
             var command = new SQLiteCommand("DROP TABLE Bait", connection);
@@ -42,13 +41,13 @@ namespace Databaser
             command.ExecuteNonQuery();
             command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS User (Username VARCHAR(18),Password VARCHAR(18), PRIMARY KEY (Username))", connection);
             command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('Admin','Admin');", connection);
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('ADMIN','ADMIN');", connection);
             command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('Hoffe', '123');", connection);
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('HOFFE', 'HOFFE');", connection);
             command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('Kreie','111');", connection);
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('KREIE','FCM');", connection);
             command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('Pepega', 'Password');", connection);
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('PEPEGA', 'PASSWORD');", connection);
             command.ExecuteNonQuery();
 
             command = new SQLiteCommand("DROP TABLE Vehicle", connection);
@@ -98,27 +97,60 @@ namespace Databaser
             command = new SQLiteCommand("INSERT INTO FishList (FISH,Value) VALUES ('Green','10');", connection);
             command.ExecuteNonQuery();
 
-            string querry = "Select * from User Where Username = '" + user + "' and Password = '" + password + "'";
-
-            SQLiteDataAdapter sda = new SQLiteDataAdapter(querry, connection);
-            DataTable dtbl = new DataTable();
-            sda.Fill(dtbl);
-
-            //command = new SQLiteCommand("SELECT * from Bait", connection);
-            //var dataset = command.ExecuteReader();
-            //while (dataset.Read())
-            //{
-            //    var test = dataset.GetBoolean(1);
-            //    //var id = dataset.GetInt32(0);
-            //    var name = dataset.GetString(0);
-            //    Console.WriteLine($"{name}  {test} ");
-            //}
-            //connection.Close();
+            connection.Close();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(loginTexture, Rectangle, Color.Gray);
         }
+
+        public static bool Userlogin(string user, string pass)
+        {
+            SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
+            connection.Open();
+            string querry = "Select * from User Where Username = '" + user + "' and Password = '" + pass + "'";
+
+            var command = new SQLiteCommand(querry, connection);
+            var dataset = command.ExecuteReader();
+
+            if (dataset.Read())
+            {
+                return true;
+            }
+            connection.Close();
+            return false;
+        }
+
+        //public static string Loadhighscore()
+        //{
+        //    SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
+        //    connection.Open();
+        //    string querry = "Select * from Highscore";
+        //    var command = new SQLiteCommand(querry, connection);
+        //    var dataset = command.ExecuteReader();
+
+        //    if (dataset.Read())
+        //    {
+        //        return true;
+        //    }
+        //    connection.Close();
+        //    return false;
+        //}
+
+        //public static bool InsertIntoHighscore(string user, string realm, string score)
+        //{
+        //    SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
+        //    connection.Open();
+        //    var command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('" + score + "','" + realm + "','" + user + "')", connection);
+        //    var dataset = command.ExecuteReader();
+
+        //    if (dataset.Read())
+        //    {
+        //        return true;
+        //    }
+        //    connection.Close();
+        //    return false;
+        //}
     }
 }
