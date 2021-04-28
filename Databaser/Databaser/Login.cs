@@ -64,7 +64,11 @@ namespace Databaser
                 "Username VARCHAR(15)," +
                 "FOREIGN KEY (Username) REFERENCES User(Username))", connection);
             command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('100','So','Hoffe')", connection);
+            command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('100','So','PEPEGA')", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('80','So','KREIE')", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('30','So','Hoffe')", connection);
             command.ExecuteNonQuery();
 
             command = new SQLiteCommand("DROP TABLE Realm", connection);
