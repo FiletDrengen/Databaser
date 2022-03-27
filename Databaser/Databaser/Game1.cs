@@ -53,6 +53,7 @@ namespace Databaser
             // TODO: Add your initialization logic here
             map = new Map();
             realm = new Realm();
+            Login.DatabaseSetup();
 
             base.Initialize();
         }
