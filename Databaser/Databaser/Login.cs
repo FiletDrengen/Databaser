@@ -26,9 +26,54 @@ namespace Databaser
         public static void DatabaseSetup()
         {
             connection.Open();
+<<<<<<< HEAD
             SQLiteCommand command;
 #if DEBUG
             command = new SQLiteCommand("DROP TABLE IF EXISTS Bait", connection);
+=======
+
+            var command = new SQLiteCommand("DROP TABLE Bait", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Bait (bait VARCHAR(18), Alive BOOLEAN)", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO Bait (bait, Alive) VALUES ('Orm', true);", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO Bait (bait, Alive) VALUES ('PowerBait', false);", connection);
+            command.ExecuteNonQuery();
+
+            command = new SQLiteCommand("DROP TABLE User", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS User (Username VARCHAR(18),Password VARCHAR(18), PRIMARY KEY (Username))", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('ADMIN','ADMIN');", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('HOFFE', 'HOFFE');", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('KREIE','FCM');", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('PEPEGA', 'REEEE');", connection);
+            command.ExecuteNonQuery();
+
+            command = new SQLiteCommand("DROP TABLE Vehicle", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Vehicle (vehicles VARCHAR(18))", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO Vehicle (vehicles) VALUES ('Boat'); ", connection);
+            command.ExecuteNonQuery();
+
+            command = new SQLiteCommand("DROP TABLE Highscore", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Highscore (" +
+                "Score INTEGER, " +
+                "realm VARCHAR(15)," +
+                "Username VARCHAR(15)," +
+                "FOREIGN KEY (Username) REFERENCES User(Username))", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('100','So','Hoffe')", connection);
+            command.ExecuteNonQuery();
+
+            command = new SQLiteCommand("DROP TABLE Realm", connection);
+>>>>>>> parent of a9873e5 (Highscore fix)
             command.ExecuteNonQuery();
             command = new SQLiteCommand("DROP TABLE IF EXISTS User", connection);
             command.ExecuteNonQuery();

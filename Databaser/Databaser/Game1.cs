@@ -28,11 +28,7 @@ namespace Databaser
         public KeyboardState previousKeyState;
         public Realm realm;
         private Keys keyValue;
-        public HighScore[] highscorearray;
-        public int space = 1;
-        private string highscorerealm;
-        private string highscoreuser;
-        private string highscorescore;
+        private HighScore[] highscorearray;
 
         public enum textfied
         {
@@ -51,6 +47,7 @@ namespace Databaser
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Login.DatabaseSetup();
             map = new Map();
             realm = new Realm();
             Login.DatabaseSetup();
@@ -177,15 +174,18 @@ namespace Databaser
             map.Draw(_spriteBatch);
             _spriteBatch.DrawString(userfont, "Score:  " + score, new Vector2(1, 1), Color.Black);
 
-            for (int i = 0; i < highscorearray.Length; i++)
+            foreach (HighScore highscore in highscorearray)
             {
-                _spriteBatch.DrawString(userfont, highscorearray[i].user.ToString(), new Vector2(0, 380 + 20 * i), Color.Black);
-                _spriteBatch.DrawString(userfont, highscorearray[i].realm.ToString(), new Vector2(70, 380 + 20 * i), Color.Black);
-                _spriteBatch.DrawString(userfont, highscorearray[i].highscore.ToString(), new Vector2(152, 380 + 20 * i), Color.Black);
+                var realm = highscore.realm.ToString();
+                var user = highscore.user.ToString();
+                var score = highscore.highscore.ToString();
+
+                var loadout = "User:        Realm:         Highscore";
+                _spriteBatch.DrawString(userfont, loadout, new Vector2(0, 360), Color.Black);
+                _spriteBatch.DrawString(userfont, user, new Vector2(0, 380), Color.Black);
+                _spriteBatch.DrawString(userfont, realm, new Vector2(70, 380), Color.Black);
+                _spriteBatch.DrawString(userfont, score, new Vector2(152, 380), Color.Black);
             }
-
-            _spriteBatch.DrawString(userfont, "User:        Realm:         Highscore", new Vector2(0, 360), Color.Black);
-
             _spriteBatch.End();
             base.Draw(gameTime);
         }
