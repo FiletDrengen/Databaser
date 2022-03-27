@@ -50,7 +50,6 @@ namespace Databaser
             Login.DatabaseSetup();
             map = new Map();
             realm = new Realm();
-            Login.DatabaseSetup();
 
             base.Initialize();
         }
