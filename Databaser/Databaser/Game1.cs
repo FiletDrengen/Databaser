@@ -107,7 +107,12 @@ namespace Databaser
                     userValue += keyValue.ToString();
                     if (previousKeyState.IsKeyDown(Keys.Back))
                     {
-                        userValue = userValue.Remove(userValue.Length - 5, 5);
+                        int i = userValue.Length - 5;
+                        if (i <= 0)
+                        {
+                            i = 5;
+                        }
+                        userValue = userValue.Remove(i, 5);
                     }
                 }
                 else if (keys.Length > 0)

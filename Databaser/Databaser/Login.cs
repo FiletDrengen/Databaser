@@ -11,11 +11,10 @@ namespace Databaser
 {
     public class Login : GameObject
     {
-        private SpriteFont userfont;
         public Texture2D loginTexture;
         public static ContentManager content;
         public Rectangle Rectangle;
-        public static SQLiteConnection connection = new SQLiteConnection("Data Source=Fisker.db; Version=3; New=True");
+        public static SQLiteConnection connection = new SQLiteConnection("DataSource=Fisker.db;");
 
         public Login(Rectangle newRectangle)
         {
@@ -26,70 +25,10 @@ namespace Databaser
         public static void DatabaseSetup()
         {
             connection.Open();
-<<<<<<< HEAD
             SQLiteCommand command;
-#if DEBUG
-            command = new SQLiteCommand("DROP TABLE IF EXISTS Bait", connection);
-=======
 
-            var command = new SQLiteCommand("DROP TABLE Bait", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Bait (bait VARCHAR(18), Alive BOOLEAN)", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO Bait (bait, Alive) VALUES ('Orm', true);", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO Bait (bait, Alive) VALUES ('PowerBait', false);", connection);
-            command.ExecuteNonQuery();
-
-            command = new SQLiteCommand("DROP TABLE User", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS User (Username VARCHAR(18),Password VARCHAR(18), PRIMARY KEY (Username))", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('ADMIN','ADMIN');", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('HOFFE', 'HOFFE');", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('KREIE','FCM');", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO User (Username, Password) VALUES ('PEPEGA', 'REEEE');", connection);
-            command.ExecuteNonQuery();
-
-            command = new SQLiteCommand("DROP TABLE Vehicle", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Vehicle (vehicles VARCHAR(18))", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO Vehicle (vehicles) VALUES ('Boat'); ", connection);
-            command.ExecuteNonQuery();
-
-            command = new SQLiteCommand("DROP TABLE Highscore", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Highscore (" +
-                "Score INTEGER, " +
-                "realm VARCHAR(15)," +
-                "Username VARCHAR(15)," +
-                "FOREIGN KEY (Username) REFERENCES User(Username))", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("INSERT INTO Highscore (Score, realm, Username) VALUES ('100','So','Hoffe')", connection);
-            command.ExecuteNonQuery();
-
-            command = new SQLiteCommand("DROP TABLE Realm", connection);
->>>>>>> parent of a9873e5 (Highscore fix)
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("DROP TABLE IF EXISTS User", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("DROP TABLE IF EXISTS Vehicle", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("DROP TABLE IF EXISTS Highscore", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("DROP TABLE IF EXISTS Realm", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand("DROP TABLE IF EXISTS FishList", connection);
-            command.ExecuteNonQuery();
-#endif
-            connection.Close();
             if (!TabelCheck("Bait"))
             {
-                connection.Open();
                 command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Bait (bait VARCHAR(18), Alive BOOLEAN)", connection);
                 command.ExecuteNonQuery();
                 command = new SQLiteCommand("INSERT INTO Bait (bait, Alive) VALUES ('Orm', true);", connection);
@@ -128,7 +67,6 @@ namespace Databaser
 
                 command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Realm (Realms VARCHAR(18))", connection);
                 command.ExecuteNonQuery();
-
                 command = new SQLiteCommand("INSERT INTO Realm (Realms) VALUES ('Hav');", connection);
                 command.ExecuteNonQuery();
                 command = new SQLiteCommand("INSERT INTO Realm (Realms) VALUES ('Kyst');", connection);
@@ -170,10 +108,14 @@ namespace Databaser
 
             if (dataset.Read())
             {
+                connection.Close();
                 return true;
             }
-            connection.Close();
-            return false;
+            else
+            {
+                connection.Close();
+                return false;
+            }
         }
 
         public static HighScore[] Loadhighscore()
@@ -182,6 +124,7 @@ namespace Databaser
             var highscores = new List<HighScore>();
             var command = new SQLiteCommand("Select * from Highscore", connection);
             SQLiteDataReader result = command.ExecuteReader();
+
             while (result.Read())
             {
                 var row = new HighScore();
@@ -197,7 +140,6 @@ namespace Databaser
 
         public static bool TabelCheck(string user)
         {
-            connection.Open();
             string querry = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + user + "'";
 
             var command = new SQLiteCommand(querry, connection);
@@ -207,7 +149,6 @@ namespace Databaser
             {
                 return true;
             }
-            connection.Close();
             return false;
         }
 
